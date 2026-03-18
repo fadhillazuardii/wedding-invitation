@@ -129,6 +129,11 @@ export default function HeroSection({
           <p className="text-stone-400 text-xs tracking-widest uppercase mb-5 font-light">
             Menghitung hari
           </p>
+          <div>
+            <div>
+              <span></span>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
