@@ -61,7 +61,7 @@ function TimelineItem({
     <div ref={ref} className="relative flex items-start gap-0">
       {/* left timeline */}
       <div className={`flex-1 ${isEven ? "pr-8 text-right" : "invisible"}`}>
-        {isEvent && (
+        {isEven && (
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -91,19 +91,62 @@ function TimelineItem({
       </div>
 
       {/* right timeline */}
-      <div>
-        <div>
-          <span className="text-rose-400 text-sm font-light tracking-wider">
-            {story.year}
-          </span>
-          <h3 className="text-xl text-stone-700 mt-1 mb-2">{story.title}</h3>
-          <p className="text-stone-400 text-sm leading-relaxed">
-            {story.description}
-          </p>
-        </div>
+      <div className={`flex-1 ${!isEven ? "pl-8" : "invisible"}`}>
+        {!isEven && (
+          <div>
+            <span className="text-rose-400 text-sm font-light tracking-wider">
+              {story.year}
+            </span>
+            <h3 className="text-xl text-stone-700 mt-1 mb-2">{story.title}</h3>
+            <p className="text-stone-400 text-sm leading-relaxed">
+              {story.description}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-interface LoveStoryProps {}
+interface LoveStoryProps {
+  stories?: StoryItem[];
+}
+
+export default function LoveStory({ stories = storyItems }: LoveStoryProps) {
+  return (
+    <section className="py-24 px-6 bg-white">
+      <div className="max-w-2xl mx-auto">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <p className="text-rose-400 tracking-[0.3em] text-xs uppercase mb-3 font-light">
+            Our Journey
+          </p>
+          <h2 className="text-4xl text-stone-700">Love Story</h2>
+          <div className="flex items-center justify-center mt-4 gap-3">
+            <div className="h-px h-12 bg-rose-200" />
+            <Heart className="w-4 h-4 text-rose-300 fill-rose-200" />
+            <div className="h-px h-12 bg-rose-200" />
+          </div>
+        </motion.div>
+
+        {/* Timeline Items  */}
+        <div className="flex flex-col">
+          {stories.map((story, index) => (
+            <TimelineItem
+              key={index}
+              story={story}
+              index={index}
+              isLast={index === stories.length - 1}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
